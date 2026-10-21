@@ -159,3 +159,9 @@ tools/
 
 - 原版「命令助手」作者 **xero** —— UI 风格与交互设计源自原版
 - [smali/dexlib2](https://github.com/google/smali)、[AndroidX](https://developer.android.com/jetpack)
+---
+
+## 反馈
+
+发现问题或有功能建议，欢迎到仓库提 Issue：
+<https://github.com/dscntoxanan/Minecraft-Be-Command-Helper/issues>
