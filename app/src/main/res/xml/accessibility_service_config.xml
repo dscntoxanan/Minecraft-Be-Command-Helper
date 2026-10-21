@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  无障碍服务配置。
+
+  用途：把命令面板里选中的命令**直接粘贴**到当前焦点输入框（游戏聊天框、
+  其他应用的输入框），省去「复制 → 切回游戏 → 长按 → 粘贴」。
+  这是原版命令助手的核心体验之一，也是它申请无障碍权限的唯一原因。
+
+  这里刻意把能力收窄到最小：
+    * 只监听窗口状态变化，不读屏幕文字内容（canRetrieveWindowContent=false）；
+    * 事件类型只保留「焦点变化」，不做全局按键监听；
+    * 不设置 flagRequestFilterKeyEvents / flagRequestTouchExplorationMode。
+  这样既能完成自动粘贴，又不会让系统提示「该应用可读取屏幕全部内容」而吓到用户。
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeViewFocused|typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagDefault"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_service_description"
+    android:notificationTimeout="100"
+    android:settingsActivity="com.xanan.cmdhelper.ui.MainActivity"
+    android:summary="@string/accessibility_service_summary" />

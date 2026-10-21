@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  补全候选"胶囊"。
+  浅青绿底 + 青绿细边，与面板的浅色调一致，同时在白色列表上足够醒目 ——
+  它的可点击性必须一眼看出来，否则玩家不知道这里能点。
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_teal_light" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/brand_teal" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFF1FAF9" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/brand_teal_light" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+</selector>

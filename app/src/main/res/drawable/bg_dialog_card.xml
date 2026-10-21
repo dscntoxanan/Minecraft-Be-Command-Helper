@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CA 菜单卡片：四角圆角白底。原版没有明显阴影，靠遮罩区分层级，这里加一点 elevation 提升可读性。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/dialog_background" />
+    <corners android:radius="6dp" />
+</shape>

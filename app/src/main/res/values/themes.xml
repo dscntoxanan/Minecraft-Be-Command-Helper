@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      主题基座。用 Material3 的 DayNight 变体，但本应用刻意锁定浅色：
+      原版命令助手就是浅色面板，深色会让面板在游戏画面上辨识度变差。
+    -->
+    <style name="Theme.CommandAssistant" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_teal</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorPrimaryContainer">@color/brand_teal_light</item>
+        <item name="colorSecondary">@color/brand_teal</item>
+        <item name="android:colorBackground">@color/panel_background</item>
+        <item name="colorSurface">@color/panel_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Android 15+ 强制边到边，这里显式声明以免未来默认值变化 -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">false</item>
+    </style>
+
+    <!-- 悬浮面板专用：透明、无动画、不抢焦点 -->
+    <style name="Theme.CommandAssistant.Panel" parent="Theme.CommandAssistant">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!--
+      「幽灵入口」主题 —— 给外部唤起通道用的 ShowPanelActivity。
+
+      它不画任何东西：不设 contentView、`windowNoDisplay` 让窗口根本不显示、
+      动画置空、背景 transparent。配上 Activity 自己 onCreate 末尾的 finish()，
+      用户完全看不到它被拉起过（这一点很重要：这个 Activity 是外部应用能唤起的，
+      如果它会闪一下白屏，就成了一个可被滥用的骚扰面）。
+
+      和 Theme.WsxAuth.Gate 是同一套思路，那边已经在线下跑通。
+    -->
+    <style name="Theme.CommandAssistant.Ghost" parent="Theme.CommandAssistant">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoDisplay">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <!-- CA 菜单对话框：白色卡片、无标题 -->
+    <style name="Theme.CommandAssistant.Dialog" parent="Theme.Material3.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!-- 列表项文字：原版是常规字重、17sp 左右 -->
+    <style name="PanelListItemText">
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- 标题栏文字：原版「历史」是浅灰小字 -->
+    <style name="PanelHeaderText">
+        <item name="android:textSize">@dimen/header_text_size</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- CA 菜单里的条目 -->
+    <style name="CaMenuItemText">
+        <item name="android:textSize">@dimen/dialog_item_text_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+</resources>

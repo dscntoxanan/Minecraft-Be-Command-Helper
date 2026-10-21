@@ -1,0 +1,168 @@
+官方 zh_CN.lang：item=376  tile=935  entity=138
+我们的 CSV    ：item=293  block=869  entity=138
+
+========== items ==========
+缺失 83 / 多余 0 / 译名不一致 0
+
+  【被 JUNK 规则过滤掉的】83 个（这些是刻意排除的，逐条复核是否该排除）
+      tipped_arrow = 药箭
+      spruce_sign = 云杉木告示牌
+      birch_sign = 白桦木告示牌
+      jungle_sign = 丛林木告示牌
+      acacia_sign = 金合欢木告示牌
+      darkoak_sign = 深色橡木告示牌
+      crimson_sign = 绯红木告示牌
+      warped_sign = 诡异木告示牌
+      field_masoned_banner_pattern = 砖纹旗帜图案
+      creeper_banner_pattern = 苦力怕盾徽旗帜图案
+      flow_banner_pattern = 涡流旗帜图案
+      flower_banner_pattern = 花朵盾徽旗帜图案
+      globe_banner_pattern = 地球旗帜图案
+      guster_banner_pattern = 旋风旗帜图案
+      piglin_banner_pattern = 猪鼻旗帜图案
+      skull_banner_pattern = 头颅盾徽旗帜图案
+      mojang_banner_pattern = Mojang 徽标旗帜图案
+      bordure_indented_banner_pattern = 波纹边旗帜图案
+      banner_pattern = 旗帜图案
+      pale_oak_door = 苍白橡木门
+      pale_oak_hanging_sign = 苍白橡木悬挂告示牌
+      pale_oak_sign = 苍白橡木告示牌
+      mangrove_sign = 红树木告示牌
+      acacia_hanging_sign = 金合欢木悬挂告示牌
+      angler_pottery_sherd = 垂钓纹样陶片
+      archer_pottery_sherd = 弓箭纹样陶片
+      arms_up_pottery_sherd = 举臂纹样陶片
+      bamboo_hanging_sign = 竹制悬挂告示牌
+      bamboo_sign = 竹制告示牌
+      birch_hanging_sign = 白桦木悬挂告示牌
+      blade_pottery_sherd = 利刃纹样陶片
+      brewer_pottery_sherd = 佳酿纹样陶片
+      burn_pottery_sherd = 烈焰纹样陶片
+      cherry_hanging_sign = 樱花木悬挂告示牌
+      cherry_sign = 樱花木告示牌
+      crimson_hanging_sign = 绯红木悬挂告示牌
+      danger_pottery_sherd = 危机纹样陶片
+      dark_oak_hanging_sign = 深色橡木悬挂告示牌
+      explorer_pottery_sherd = 探险纹样陶片
+      flow_pottery_sherd = 涡流纹样陶片
+      friend_pottery_sherd = 挚友纹样陶片
+      guster_pottery_sherd = 旋风纹样陶片
+      heart_pottery_sherd = 爱心纹样陶片
+      heartbreak_pottery_sherd = 心碎纹样陶片
+      howl_pottery_sherd = 狼嚎纹样陶片
+      jungle_hanging_sign = 丛林木悬挂告示牌
+      mangrove_hanging_sign = 红树木悬挂告示牌
+      miner_pottery_sherd = 采矿纹样陶片
+      mourner_pottery_sherd = 哀悼纹样陶片
+      oak_hanging_sign = 橡木悬挂告示牌
+      plenty_pottery_sherd = 富饶纹样陶片
+      prize_pottery_sherd = 珍宝纹样陶片
+      scrape_pottery_sherd = 刮削纹样陶片
+      sheaf_pottery_sherd = 麦捆纹样陶片
+      shelter_pottery_sherd = 树荫纹样陶片
+      skull_pottery_sherd = 头颅纹样陶片
+      netherite_upgrade_smithing_template = 下界合金升级
+      sentry_armor_trim_smithing_template = 哨兵盔甲纹饰
+      vex_armor_trim_smithing_template = 恼鬼盔甲纹饰
+      wild_armor_trim_smithing_template = 荒野盔甲纹饰
+      coast_armor_trim_smithing_template = 海岸盔甲纹饰
+      dune_armor_trim_smithing_template = 沙丘盔甲纹饰
+      wayfinder_armor_trim_smithing_template = 向导盔甲纹饰
+      raiser_armor_trim_smithing_template = 牧民盔甲纹饰
+      shaper_armor_trim_smithing_template = 塑造盔甲纹饰
+      host_armor_trim_smithing_template = 雇主盔甲纹饰
+      ward_armor_trim_smithing_template = 监守盔甲纹饰
+      silence_armor_trim_smithing_template = 幽静盔甲纹饰
+      tide_armor_trim_smithing_template = 潮汐盔甲纹饰
+      snout_armor_trim_smithing_template = 猪鼻盔甲纹饰
+      rib_armor_trim_smithing_template = 肋骨盔甲纹饰
+      eye_armor_trim_smithing_template = 眼眸盔甲纹饰
+      spire_armor_trim_smithing_template = 尖塔盔甲纹饰
+      flow_armor_trim_smithing_template = 涡流盔甲纹饰
+      bolt_armor_trim_smithing_template = 镶铆盔甲纹饰
+      snort_pottery_sherd = 嗅探纹样陶片
+      spruce_hanging_sign = 云杉木悬挂告示牌
+      warped_hanging_sign = 诡异木悬挂告示牌
+      brown_egg = 棕色蛋
+      blue_egg = 蓝色蛋
+      poplar_hanging_sign = 白杨木悬挂告示牌
+      poplar_sign = 白杨木告示牌
+      straw_bed = 草床
+
+  【非 JUNK 但仍缺失】0 个 ← **这才是真漏项**
+
+========== blocks ==========
+缺失 66 / 多余 0 / 译名不一致 0
+
+  【被 JUNK 规则过滤掉的】66 个（这些是刻意排除的，逐条复核是否该排除）
+      pale_oak_door = 苍白橡木门
+      pale_oak_sapling = 苍白橡木树苗
+      pale_oak_leaves = 苍白橡木树叶
+      mangrove_standing_sign = 红树木告示牌
+      mangrove_wall_sign = 红树木壁挂告示牌
+      mangrove_hanging_sign = 红树木悬挂告示牌
+      bamboo_standing_sign = 竹制告示牌
+      bamboo_wall_sign = 竹制壁挂告示牌
+      bamboo_hanging_sign = 竹制悬挂告示牌
+      cherry_standing_sign = 樱花木告示牌
+      cherry_wall_sign = 樱花木壁挂告示牌
+      cherry_hanging_sign = 樱花木悬挂告示牌
+      bed = 床
+      crimson_standing_sign = 绯红木告示牌
+      warped_standing_sign = 诡异木告示牌
+      warped_hanging_sign = 诡异木悬挂告示牌
+      crimson_wall_sign = 绯红木告示牌
+      warped_wall_sign = 诡异木告示牌
+      light_block = 浅色
+      dragon_egg = 龙蛋
+      monster_egg = 被虫蚀的石头
+      standing_sign = 告示牌
+      wall_sign = 壁挂告示牌
+      crimson_hanging_sign = 绯红木悬挂告示牌
+      spruce_standing_sign = 云杉木告示牌
+      spruce_wall_sign = 云杉木壁挂告示牌
+      birch_standing_sign = 白桦木告示牌
+      birch_wall_sign = 白桦木壁挂告示牌
+      birch_hanging_sign = 白桦木悬挂告示牌
+      jungle_standing_sign = 丛林木告示牌
+      jungle_wall_sign = 丛林壁挂告示牌
+      jungle_hanging_sign = 丛林木悬挂告示牌
+      acacia_standing_sign = 金合欢木告示牌
+      acacia_wall_sign = 金合欢木壁挂告示牌
+      acacia_hanging_sign = 金合欢木悬挂告示牌
+      spruce_hanging_sign = 云杉木悬挂告示牌
+      oak_hanging_sign = 橡木悬挂告示牌
+      darkoak_standing_sign = 深色橡木告示牌
+      darkoak_wall_sign = 深色橡木壁挂告示牌
+      dark_oak_hanging_sign = 深色橡木悬挂告示牌
+      standing_banner = 旗帜
+      wall_banner = 壁挂旗帜
+      turtle_egg = 海龟蛋
+      pale_oak_button = 苍白橡木按钮
+      pale_oak_double_slab = 苍白橡木双层台阶
+      pale_oak_fence = 苍白橡木栅栏
+      pale_oak_fence_gate = 苍白橡木栅栏大门
+      pale_oak_log = 苍白橡树原木
+      pale_oak_planks = 苍白橡木木板
+      pale_oak_pressure_plate = 苍白橡木压力板
+      pale_oak_standing_sign = 苍白橡木告示牌
+      pale_oak_wall_sign = 苍白橡木壁挂告示牌
+      pale_oak_hanging_sign = 苍白橡木悬挂告示牌
+      pale_oak_slab = 苍白橡木台阶
+      pale_oak_stairs = 苍白橡木楼梯
+      pale_oak_trapdoor = 苍白橡木活板门
+      pale_oak_wood = 苍白橡木块
+      pale_hanging_moss = 苍白垂须
+      pale_moss_block = 苍白苔藓块
+      pale_moss_carpet = 苍白苔藓地毯
+      sniffer_egg = 嗅探兽蛋
+      pale_oak_shelf = 苍白橡木展示架
+      poplar_hanging_sign = 白杨木悬挂式告示牌
+      poplar_standing_sign = 白杨木告示牌
+      poplar_wall_sign = 白杨木壁挂告示牌
+      straw_bed = 草床
+
+  【非 JUNK 但仍缺失】0 个 ← **这才是真漏项**
+
+========== entities ==========
+缺失 0 / 多余 0 / 译名不一致 0

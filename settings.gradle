@@ -1,0 +1,25 @@
+// 命令助手（CommandAssistant）—— 从零重建的 Minecraft 基岩版命令工具。
+//
+// 本工程与 WhiteShadow / WhiteShadowNative 并列存在，互不依赖。
+
+pluginManagement {
+    // Android Gradle 插件与 Kotlin 插件都在 Google / Maven Central 仓库，
+    // 必须放在最前面，否则 pluginManagement 解析不到。
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'CommandAssistant'
+
+include ':app'

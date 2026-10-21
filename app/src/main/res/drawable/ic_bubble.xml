@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  面板把手：标题栏右侧的小圆球。
+  造型取自原版图标（一个带 "CA" 字样的浅色圆球），这里用矢量重画，避免位图缩放发虚。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 球体 -->
+    <path
+        android:fillColor="#FFF5E6D3"
+        android:pathData="M12,12m-9,0a9,9 0 1,0 18,0a9,9 0 1,0 -18,0" />
+    <!-- 球体描边 -->
+    <path
+        android:strokeColor="#FFB79C7B"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:pathData="M12,12m-9,0a9,9 0 1,0 18,0a9,9 0 1,0 -18,0" />
+    <!-- 内部方块（像素/命令方块意象） -->
+    <path
+        android:fillColor="#FFD9C4A5"
+        android:pathData="M8.5,8.5h7v7h-7z" />
+    <path
+        android:strokeColor="#FFA98A63"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:pathData="M8.5,8.5h7v7h-7z" />
+</vector>

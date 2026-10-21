@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  「复制」图标：剪贴板。
+  原版每行命令右侧就是这个图标，点击复制该条命令。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 板身 -->
+    <path
+        android:fillColor="#FF8D6E63"
+        android:pathData="M7,3h10a2,2 0 0 1 2,2v14a2,2 0 0 1 -2,2H7a2,2 0 0 1 -2,-2V5a2,2 0 0 1 2,-2z" />
+    <!-- 纸面 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M7.5,6.5h9v12h-9z" />
+    <!-- 内容线 -->
+    <path
+        android:fillColor="#FFBDBDBD"
+        android:pathData="M9,9h6v1H9zM9,11.5h6v1H9zM9,14h4v1H9z" />
+    <!-- 顶部夹子 -->
+    <path
+        android:fillColor="#FF5D4037"
+        android:pathData="M10,1.5h4a1,1 0 0 1 1,1v2a1,1 0 0 1 -1,1h-4a1,1 0 0 1 -1,-1v-2a1,1 0 0 1 1,-1z" />
+</vector>

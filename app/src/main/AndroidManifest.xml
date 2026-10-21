@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  命令助手 —— 应用清单
+
+  Android 16（API 36）适配要点，逐条对照：
+    * foregroundServiceType：Android 14+ 起前台服务必须声明类型，未声明类型的
+      前台服务会在启动时抛 MissingForegroundServiceTypeException。我们用的是
+      specialUse，并按要求在 <property> 里填写用途说明（Google Play 政策要求）。
+    * POST_NOTIFICATIONS：Android 13+ 通知是运行时权限，前台服务的常驻通知
+      必须申请，否则用户看不到、也容易被系统直接掐掉。
+    * targetSdk 36：Android 16 要求 targetSdk >= 24，且对 targetSdk >= 35 的
+      应用强制边到边（edge-to-edge）布局 —— UI 侧统一用 WindowInsets 处理安全区。
+    * package visibility：Android 11+ 想在代码里 queryIntentActivities 探测
+      Minecraft 是否安装，必须在这里用 <queries> 声明包名。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 悬浮面板（命令面板窗口） -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 前台服务：让悬浮面板在后台不被系统回收 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- Android 13+ 前台服务常驻通知需要运行时权限 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 读取/写入命令库导出文件 -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <!-- 开机自启（可选：恢复悬浮面板） -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- 需要探测 Minecraft 是否安装时用 -->
+    <queries>
+        <package android:name="com.mojang.minecraftpe" />
+        <package android:name="com.netease.x19" />
+        <package android:name="com.netease.mc" />
+    </queries>
+
+    <application
+        android:name=".CommandAssistantApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.CommandAssistant"
+        tools:targetApi="36">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.CommandAssistant">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- 从别的应用「分享」一段命令过来，直接进命令编辑 -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <!-- 悬浮面板：跑在独立进程外的前台服务里 -->
+        <service
+            android:name=".service.PanelService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="保持命令面板悬浮窗常驻，供玩家在游戏内快速取用命令" />
+        </service>
+
+        <!--
+          外部唤起入口 —— 全应用唯一一个 exported 的"控制类"组件。
+
+          谁需要它：白影 X 的 XP 模块在【工具】栏目里放了一个「命令助手」开关，
+          而 PanelService 是 exported=false，模块够不着，必须有一条跨应用通路。
+          Activity 而不是广播/Service 的原因写在 ShowPanelActivity 的类注释里
+          （核心是 Android 12+ 后台应用不能 startForegroundService，
+          由系统把本 Activity 拉到前台之后再由它去起 Service 才合法）。
+
+          收窄手段（全部在代码里，见 ShowPanelActivity）：
+            · 无任何 intent-filter      —— 隐式 Intent 匹配不上，必须显式指名；
+            · 令牌 + action 白名单      —— 光知道组件名唤不起来；
+            · 首个合法调用方 UID 绑定    —— 只有第一个成功调它的应用能继续用。
+         注意**这里没有声明自定义权限**，这是刻意的，理由见 ShowPanelActivity
+          类注释里"为什么没有用签名级权限"那一节：宿主包会被内嵌 LSPatch 补丁器
+          重新签名（XpInjector.java:203 传了 -k 密钥），永远拿不到我们的签名，
+          签名级权限只会把唯一合法的调用方一起挡在门外。
+        -->
+        <activity
+            android:name=".ui.ShowPanelActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode"
+            android:theme="@style/Theme.CommandAssistant.Ghost" />
+
+
+        <!-- 无障碍服务：把命令直接粘贴进游戏聊天框 -->
+        <service
+            android:name=".service.PasteAccessibilityService"
+            android:exported="true"
+            android:label="@string/accessibility_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+    </application>
+
+</manifest>

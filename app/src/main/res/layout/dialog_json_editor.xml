@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  JSON 命令生成器（对应 CA 菜单里的「显示样式代码栏」）。
+
+  布局分四段，从上到下：
+    1. 命令选择：下拉框选 titleraw / give / tellraw 等；
+    2. 实时预览：一眼看到最终会粘进游戏的完整命令；
+    3. 参数区（可滚动）：按参数类型生成输入控件；
+    4. 底部操作：复制 / 插入到输入框。
+
+  预览放在参数上方是刻意的：改参数时视线不用来回跑，而且"填错了"当场就能看出来。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/jsonDialogRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_card"
+    android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="8dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dialog_item_padding_horizontal"
+        android:paddingEnd="@dimen/dialog_item_padding_horizontal"
+        android:paddingBottom="8dp"
+        android:text="@string/json_dialog_title"
+        android:textColor="@color/text_primary"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <!-- 命令选择 -->
+    <Spinner
+        android:id="@+id/commandSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_input_field" />
+
+    <!-- 实时预览 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dialog_item_padding_horizontal"
+        android:paddingTop="10dp"
+        android:paddingEnd="@dimen/dialog_item_padding_horizontal"
+        android:text="@string/json_preview_label"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/previewText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_code_area"
+        android:fontFamily="monospace"
+        android:maxLines="6"
+        android:minHeight="56dp"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/text_primary"
+        android:textIsSelectable="true"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dialog_item_padding_horizontal"
+        android:paddingTop="4dp"
+        android:paddingEnd="@dimen/dialog_item_padding_horizontal"
+        android:textColor="#FFD32F2F"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/dialog_divider" />
+
+    <!--
+      参数区：由代码按参数声明动态填充。
+
+      高度策略：**weight=1 + maxHeight**，而不是只靠 weight。
+      代码栏整体被套在一个 ScrollView 里（见 OverlayDialogs），此时父容器给的高度是
+      UNSPECIFIED，weight 分不到任何空间，参数区会塌成 0 高、什么都看不见。
+      给一个 maxHeight 就能保证无论外层怎么测量，参数区都有稳定高度。
+    -->
+    <ScrollView
+        android:id="@+id/paramScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxHeight="300dp"
+        android:minHeight="120dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp">
+
+        <LinearLayout
+            android:id="@+id/paramContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dialog_item_padding_horizontal"
+            android:paddingEnd="@dimen/dialog_item_padding_horizontal" />
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dialog_divider" />
+
+    <!-- 底部操作 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/dialog_close"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/formatJsonButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/json_format"
+            android:textColor="@color/brand_teal"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/copyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/json_copy"
+            android:textColor="@color/brand_teal"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/insertButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/json_insert"
+            android:textColor="@color/brand_teal"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

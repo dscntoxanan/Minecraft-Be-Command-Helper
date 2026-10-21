@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  命令列表的单行。
+
+  布局对照原版：左边是命令文本（最多 3 行，超出省略），右边固定一个剪贴板图标。
+  文本用 0dp + weight=1 撑开，保证图标永远贴在右边，不会因为命令太长被挤出屏幕。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_list_item"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/list_item_min_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/list_item_padding_horizontal"
+    android:paddingTop="@dimen/list_item_padding_vertical"
+    android:paddingEnd="6dp"
+    android:paddingBottom="@dimen/list_item_padding_vertical">
+
+    <TextView
+        android:id="@+id/commandText"
+        style="@style/PanelListItemText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:lineSpacingExtra="2dp"
+        android:textIsSelectable="false" />
+
+    <ImageView
+        android:id="@+id/copyIcon"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/panel_copy"
+        android:padding="11dp"
+        android:src="@drawable/ic_clipboard" />
+</LinearLayout>

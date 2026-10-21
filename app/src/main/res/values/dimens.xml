@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 尺寸。原版是 WebView 渲染，这里按 1080x2340 / density 540 的截图折算成 dp。 -->
+<resources>
+    <!-- 面板圆角：原版顶部两角是圆角，底部贴边 -->
+    <dimen name="panel_corner_radius">12dp</dimen>
+
+    <!-- 标题栏 -->
+    <dimen name="header_height">48dp</dimen>
+    <dimen name="header_text_size">15sp</dimen>
+    <dimen name="header_horizontal_padding">16dp</dimen>
+
+    <!-- 列表项：原版每行约 105px / 540dpi ≈ 46dp 高 -->
+    <dimen name="list_item_min_height">48dp</dimen>
+    <dimen name="list_item_text_size">17sp</dimen>
+    <dimen name="list_item_padding_horizontal">14dp</dimen>
+    <dimen name="list_item_padding_vertical">10dp</dimen>
+    <dimen name="list_icon_size">22dp</dimen>
+
+    <!-- 底部输入栏：原版约 85px ≈ 40dp -->
+    <dimen name="input_bar_height">52dp</dimen>
+    <dimen name="input_bar_action_text_size">16sp</dimen>
+    <dimen name="input_bar_field_text_size">16sp</dimen>
+
+    <!-- CA 菜单对话框 -->
+    <dimen name="dialog_horizontal_margin">24dp</dimen>
+    <dimen name="dialog_item_height">56dp</dimen>
+    <dimen name="dialog_item_text_size">17sp</dimen>
+    <dimen name="dialog_item_padding_horizontal">24dp</dimen>
+
+    <!-- 悬浮球 -->
+    <dimen name="bubble_size">48dp</dimen>
+</resources>

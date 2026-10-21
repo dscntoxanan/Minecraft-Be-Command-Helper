@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 输入光标：主色青绿，2dp 宽。原版输入框的光标就是这个颜色。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/brand_teal" />
+    <size android:width="2dp" />
+</shape>

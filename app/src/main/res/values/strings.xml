@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">命令助手</string>
+
+    <!-- 无障碍服务 -->
+    <string name="accessibility_service_label">命令助手 · 自动粘贴</string>
+    <string name="accessibility_service_summary">把命令直接粘贴到游戏聊天框</string>
+    <string name="accessibility_service_description">启用后，命令助手可以把选中的命令直接粘贴到当前输入框（例如 Minecraft 聊天框），免去手动复制粘贴。本服务只监听输入焦点变化，不读取屏幕上的其他内容。</string>
+
+    <!-- 面板 -->
+    <string name="panel_history">历史</string>
+    <string name="panel_favorites">收藏</string>
+    <string name="panel_input_hint">命令</string>
+    <string name="panel_close">关闭</string>
+    <string name="panel_ca">CA</string>
+    <string name="panel_empty">还没有命令。在下面输入一条命令，回车即可保存。</string>
+    <string name="panel_copy">复制这条命令</string>
+    <string name="panel_favorite">收藏</string>
+    <string name="panel_unfavorite">取消收藏</string>
+    <string name="panel_delete">删除</string>
+    <string name="panel_close_copy">复制</string>
+
+    <!-- 输入框有内容时列表顶部显示的语法帮助 / 自动补全 -->
+    <string name="help_unknown_command">这条命令不在内置命令库里</string>
+    <string name="help_unknown_hint">可以直接按回车保存到历史，或者点 CA →「显示样式代码栏」用表单生成。</string>
+    <string name="completion_none">没有更多候选了。可以直接手打，或按回车保存到历史。</string>
+
+    <!-- CA 菜单：与原文案保持一致 -->
+    <string name="ca_insert">插入……</string>
+    <string name="ca_recipe_library">玩家指令库</string>
+    <string name="recipe_title">玩家指令库</string>
+    <string name="recipe_copied">已复制到剪贴板</string>
+    <string name="overlay_close">关闭</string>
+    <string name="ca_style_bar">显示样式代码栏</string>
+    <string name="ca_batch_template">创建批量生成模板</string>
+    <string name="ca_toggle_fullscreen">切换全屏/悬浮窗</string>
+    <string name="ca_format_codes">§ 格式代码面板</string>
+    <string name="ca_tutorial">教程</string>
+    <string name="ca_settings">设置</string>
+    <string name="ca_exit">退出命令助手</string>
+
+    <!-- 通知 -->
+    <string name="notification_channel_panel">命令面板</string>
+    <string name="notification_channel_panel_desc">保持命令面板在后台可用</string>
+    <string name="notification_title">命令助手运行中</string>
+    <string name="notification_text">点按返回命令面板</string>
+
+    <!-- 提示 -->
+    <string name="toast_overlay_permission_required">需要「显示在其他应用上层」权限才能显示浮动面板</string>
+    <string name="toast_copied">已复制：%1$s</string>
+    <string name="toast_pasted">已粘贴到输入框</string>
+    <string name="toast_paste_failed">没找到可粘贴的输入框，已复制到剪贴板</string>
+    <string name="toast_empty_command">命令是空的</string>
+
+    <!-- ==================== 主界面（权限与引导） ==================== -->
+    <string name="main_title">命令助手</string>
+    <string name="main_subtitle">Minecraft 基岩版命令快捷输入与 JSON 生成工具</string>
+    <string name="stats_format">历史 %1$d 条 · 收藏 %2$d 条</string>
+
+    <string name="section_permissions">运行前需要准备</string>
+
+    <string name="permission_overlay_title">悬浮窗权限</string>
+    <string name="permission_overlay_desc">面板要浮在游戏上面，必须先开这个权限。点这一行去开启。</string>
+
+    <string name="permission_accessibility_title">自动粘贴（可选）</string>
+    <string name="permission_accessibility_desc">开着它，点「关闭」就能把命令直接粘进游戏聊天框；不开就只能复制到剪贴板手动粘贴。</string>
+
+    <string name="permission_notification_title">通知权限</string>
+    <string name="permission_notification_desc">让面板在后台保持存活，避免玩游戏时被系统清理掉。</string>
+
+    <string name="state_granted">已开启</string>
+    <string name="state_required">未开启 · 必填</string>
+    <string name="state_optional">未开启 · 可选</string>
+    <string name="state_enabled">已开启</string>
+    <string name="state_recommended">未开启 · 建议开启</string>
+
+    <string name="action_start_panel">启动命令面板</string>
+    <string name="action_stop_panel">关闭命令面板</string>
+    <string name="hint_panel_stopped">命令面板已关闭</string>
+    <string name="hint_notification_denied">没有通知权限，面板仍可用，但更容易被系统清理</string>
+    <string name="hint_open_accessibility_failed">无法打开无障碍设置，请手动进入「设置 → 无障碍」开启</string>
+
+    <string name="section_usage">怎么用</string>
+    <string name="usage_body">1. 开启悬浮窗权限后点「启动命令面板」，面板会从屏幕底部弹出。\n\n2. 在面板下方的输入框里写命令，回车保存到历史；点历史里的一条命令会填回输入框。\n\n3. 右侧剪贴板图标是直接复制；长按一条命令可以收藏或删除。\n\n4. 点左下角「CA」打开菜单：JSON 样式代码栏、批量生成模板、教程、设置都在里面。\n\n5. 写完点「关闭」，命令会直接粘进当前输入框并收起面板 —— 回到游戏就能发送。</string>
+
+    <!-- ==================== JSON 命令生成器 ==================== -->
+    <string name="json_dialog_title">JSON 样式代码栏</string>
+    <string name="json_preview_label">生成的命令</string>
+    <string name="json_format">格式化</string>
+    <string name="json_copy">复制</string>
+    <string name="json_insert">插入到输入框</string>
+    <string name="json_empty_preview">（参数还没填完）</string>
+    <string name="json_error_prefix">无法生成：</string>
+    <string name="json_missing_params">还缺必填项：%1$s</string>
+    <string name="json_invalid_json">JSON 格式有问题：%1$s</string>
+    <string name="json_selector_hint">常用：@a 所有玩家 / @p 最近 / @s 自己 / @e 所有实体</string>
+    <string name="json_boolean_true">启用（true）</string>
+    <string name="json_format_done">JSON 已经是压缩形式</string>
+    <string name="dialog_close">关闭</string>
+
+    <!-- ==================== 批量生成模板 ==================== -->
+    <string name="batch_dialog_title">批量生成模板</string>
+    <string name="batch_template_label">命令模板（用 {名字} 做占位符）</string>
+    <string name="batch_template_hint">例如：give @s diamond_sword {数量}</string>
+    <string name="batch_values_label">占位符取值（英文逗号分隔）</string>
+    <string name="batch_values_hint_row">如 1,2,3</string>
+    <string name="batch_placeholder_row">{%1$s}</string>
+    <string name="batch_no_placeholder_hint">模板里还没有 {占位符}，加一个就会出现在下面</string>
+    <string name="batch_preview">生成预览</string>
+    <string name="batch_save">全部存为命令</string>
+    <string name="batch_copy_all">复制全部</string>
+    <string name="batch_count">将生成 %1$d 条命令</string>
+    <string name="batch_no_placeholder">模板里没有找到 {占位符}，请用花括号包住要替换的部分</string>
+    <string name="batch_empty">还没有填占位符的取值</string>
+    <string name="batch_saved">已保存 %1$d 条命令到历史</string>
+    <string name="batch_preview_title">生成结果（%1$d 条）</string>
+    <string name="batch_sample_template">give @s diamond_sword {数量} {"item_name":"第{等级}号剑"}</string>
+
+    <!-- ==================== 教程 / 设置 / 关于 ==================== -->
+    <string name="tutorial_body">【基本用法】\n面板底部的输入框就是命令行。写完按回车或点「+」保存到历史。\n\n【历史与收藏】\n点顶部「历史」两个字可以在历史和收藏之间切换；长按一条命令可以收藏、删除或复制。\n\n【自动粘贴】\n在设置里开启「命令助手 · 自动粘贴」无障碍服务后，点「关闭」会把命令直接写进当前输入框 —— 包括 Minecraft 的聊天框。没开的话会退回到复制到剪贴板。\n\n【JSON 语法】\n基岩版的 titleraw / tellraw 不接受普通文字，必须写 JSON 组件。点 CA → 「显示样式代码栏」，选一条命令、填好参数，工具会自动拼出正确的 JSON，再也不用手打引号。\n\n【批量生成】\nCA → 「创建批量生成模板」，在模板里用 {名字} 占位，一行一个取值列表，就能一次生成几十条命令。\n\n【小技巧】\n面板顶部的浅灰条可以上下拖动，把它挪开就不会挡住游戏里的按钮。</string>
+
+    <string name="settings_clear_history">清空历史（保留收藏）</string>
+    <string name="settings_about">关于命令助手</string>
+
+    <!-- 设置页：7 个主项，与原版的分组保持一致 -->
+    <string name="settings_account">账号</string>
+    <string name="settings_appearance">外观</string>
+    <string name="settings_autocomplete">智能补全</string>
+    <string name="settings_user_data">用户数据</string>
+    <string name="settings_push">推送信息</string>
+    <string name="settings_accessibility">辅助功能</string>
+    <string name="settings_about_entry">关于命令助手</string>
+
+    <!-- 外观子页 -->
+    <string name="appearance_font">列表字号</string>
+    <string name="appearance_panel_ratio">面板高度</string>
+    <string name="appearance_close_action">点「关闭」时</string>
+    <string name="appearance_close_send">直接粘贴到输入框（推荐）</string>
+    <string name="appearance_close_copy">只复制到剪贴板</string>
+    <string name="appearance_theme">主题</string>
+    <string name="appearance_theme_value">浅色（与原版一致）</string>
+    <string name="appearance_editor">JSON 编辑器</string>
+    <string name="appearance_editor_value">实时预览（已开启）</string>
+    <string name="appearance_drag">拖拽排序</string>
+    <string name="appearance_drag_value">待实现</string>
+    <string name="appearance_sound">音效</string>
+    <string name="appearance_sound_value">待实现</string>
+    <string name="appearance_vibrate">震动</string>
+    <string name="appearance_vibrate_value">待实现</string>
+
+    <!-- 用户数据 -->
+    <string name="userdata_export">导出命令库（JSON）</string>
+    <string name="userdata_import">导入命令库</string>
+    <string name="userdata_clear">清空历史（保留收藏）</string>
+    <string name="userdata_stats">命令数量统计</string>
+    <string name="userdata_export_done">已复制命令库 JSON 到剪贴板（%1$d 条）</string>
+    <string name="userdata_import_empty">剪贴板里没有可导入的命令库 JSON</string>
+    <string name="userdata_import_done">导入完成：新增 %1$d 条</string>
+
+    <!-- 还没做的功能：如实说明，不放"点了没反应"的开关 -->
+    <string name="not_implemented_yet">这个功能还没做（原版对应的能力正在逐个补齐）</string>
+    <string name="account_local_only">本版本不联网、不需要账号，命令全部存在手机本地</string>
+    <string name="autocomplete_tip">命令库里的参数会提示取值范围；输入命令时会自动显示语法帮助</string>
+
+    <string name="about_body">命令助手 · 独立重制版\n\n这是原 Xero「命令助手」的完整重写版本，用于适配 Android 16 与新版 Minecraft 基岩版命令语法。\n\n主要能力：\n· 悬浮命令面板，游戏内随取随用\n· 无障碍一键粘贴到聊天框\n· titleraw / tellraw / give 等命令的 JSON 组件生成\n· 输入命令时实时显示语法帮助与参数说明\n· 批量生成模板与命令库导入导出\n\n命令语法覆盖基岩版 1.19 以后的新版写法。</string>
+
+    <!-- ==================== 列表与对话框 ==================== -->
+    <string name="app_name_panel">命令助手面板</string>
+</resources>

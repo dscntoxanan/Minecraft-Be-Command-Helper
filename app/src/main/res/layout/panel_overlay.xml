@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  悬浮面板的根布局。
+
+  结构对照原版截图：
+    ┌─────────────────────────────┐
+    │ 历史                  (悬浮球)│  <- 标题栏，浅灰底；中间那个小球是面板的"把手"
+    ├─────────────────────────────┤
+    │ 命令列表（可滚动）             │
+    │                             │
+    ├─────────────────────────────┤
+    │ CA   +  [命令        ]   关闭 │  <- 底部输入栏
+    └─────────────────────────────┘
+
+  面板本身是一个自定义 View（FixedRatioPanel），负责按"占屏幕高度比例"展开，
+  并在全屏/悬浮窗两种形态之间切换。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.xanan.cmdhelper.ui.widget.FixedRatioPanel
+        android:id="@+id/panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_panel"
+        android:elevation="12dp"
+        android:orientation="vertical">
+
+        <!-- ============ 标题栏 ============ -->
+        <LinearLayout
+            android:id="@+id/headerBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_height"
+            android:background="@drawable/bg_panel_header"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/header_horizontal_padding"
+            android:paddingEnd="@dimen/header_horizontal_padding">
+
+            <TextView
+                android:id="@+id/headerTitle"
+                style="@style/PanelHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/panel_history" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!--
+              这个小球不是装饰：原版点它会展开/收起面板。
+              长按拖动可以移动整个面板窗口（见 PanelService 的触摸处理）。
+            -->
+            <ImageView
+                android:id="@+id/bubbleIcon"
+                android:layout_width="@dimen/list_icon_size"
+                android:layout_height="@dimen/list_icon_size"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_bubble_round" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/panel_divider" />
+
+        <!-- ============ 命令列表 ============ -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commandList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/panel_background"
+            android:clipToPadding="false"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingBottom="4dp"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/emptyHint"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/panel_background"
+            android:gravity="center"
+            android:text="@string/panel_empty"
+            android:textColor="@color/text_disabled"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <!--
+          语法帮助面板：输入框有内容时顶替命令列表显示。
+
+          这是照原版的动态行为做的：输入框空着看历史，一开始打字就换成
+          "这条命令怎么用"。内容由 CommandHelp 按命令的参数声明实时生成。
+        -->
+        <ScrollView
+            android:id="@+id/helpPanel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/panel_background"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/helpContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp" />
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/panel_divider" />
+
+        <!-- ============ 底部输入栏 ============ -->
+        <LinearLayout
+            android:id="@+id/inputBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_bar_height"
+            android:background="@color/input_bar_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/caButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:minWidth="56dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/panel_ca"
+                android:textColor="@color/input_bar_text"
+                android:textSize="@dimen/input_bar_action_text_size" />
+
+            <ImageView
+                android:id="@+id/addButton"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/ca_insert"
+                android:padding="12dp"
+                android:src="@drawable/ic_add" />
+
+            <!--
+              输入框：固定单行高度。
+
+              这里刻意用 minHeight + maxHeight + 居中，而不是让它按内容长高：
+              输入条是"常驻控件"，一旦被长命令撑高，整个面板会往上顶、
+              把 CA / 关闭 两个按钮推离原位（实测踩过：粘一条三行命令后菜单点不中）。
+              需要看长命令时，多出来的部分会横向滚动，不占高度。
+            -->
+            <EditText
+                android:id="@+id/commandInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/panel_input_hint"
+                android:imeOptions="actionSend|flagNoExtractUi"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minHeight="40dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:scrollHorizontally="true"
+                android:textColor="@color/input_bar_text"
+                android:textColorHint="@color/input_bar_hint"
+                android:textCursorDrawable="@drawable/cursor_teal"
+                android:textSize="@dimen/input_bar_field_text_size" />
+
+            <TextView
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/panel_close"
+                android:textColor="@color/input_bar_text"
+                android:textSize="@dimen/input_bar_action_text_size" />
+        </LinearLayout>
+    </com.xanan.cmdhelper.ui.widget.FixedRatioPanel>
+
+    <!-- ============ CA 菜单弹层 ============ -->
+    <!-- 打开时盖一层半透明遮罩，点空白处关闭，与原版行为一致 -->
+    <View
+        android:id="@+id/menuScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/scrim"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/caMenuCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
+        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
+        android:background="@drawable/bg_dialog_card"
+        android:elevation="24dp"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:visibility="gone" />
+
+    <!--
+      ============ 通用弹层容器 ============
+
+      位置很关键：它是**面板的同级兄弟**，而不是面板的子 View。
+
+      如果放在面板内部，弹层会被面板窗口的高度裁掉 —— 面板只占屏幕下面 76%，
+      JSON 代码栏这种高个子弹层的上半截就会被切掉（实测踩过：标题和预览都看不见）。
+
+      放在同级后，它的高度上限是整屏（根 FrameLayout 是 match_parent），
+      既能盖住面板、也能盖住面板上方的区域，同时仍然在**同一个窗口**内 ——
+      这一点很重要：面板跑在 Service 的悬浮窗里，另开一个窗口（Dialog）会因为
+      拿不到窗口令牌抛 BadTokenException 把进程杀掉，详见 OverlayDialogs 的说明。
+    -->
+    <FrameLayout
+        android:id="@+id/dialogHost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="40dp"
+        android:visibility="gone" />
+</FrameLayout>

@@ -1,0 +1,156 @@
+plugins {
+    alias(libs.plugins.android.application)
+    // 注意：AGP 9.0 起**内置** Kotlin 支持，不再需要单独 apply
+    // org.jetbrains.kotlin.android —— 多写一个反而会在配置阶段直接报错：
+    //   "The 'org.jetbrains.kotlin.android' plugin is no longer required for Kotlin support since AGP 9.0."
+    // 版本目录里仍然保留 kotlin 版本号，供 kotlin { } 块与依赖解析使用。
+}
+
+// ---------------------------------------------------------------------------
+// 发布签名
+// ---------------------------------------------------------------------------
+// 与 AGENTS.md 的安全约定一致：密钥库口令**不写进任何项目文件**。
+// 按顺序尝试两个来源：
+//   1. %USERPROFILE%\.dsh\wsx-signing.env   （首选，位于工作区之外）
+//   2. 工程根目录的 keystore.properties     （方便，必须保持被忽略）
+// 两个都没有时 release 依然能编译，只是不签名。
+def signing = [:]
+def signingEnv = new File(System.getProperty('user.home'), '.dsh/wsx-signing.env')
+def signingProps = rootProject.file('keystore.properties')
+
+if (signingEnv.exists()) {
+    signingEnv.eachLine { line ->
+        def trimmed = line.trim()
+        if (trimmed && !trimmed.startsWith('#') && trimmed.contains('=')) {
+            def (k, v) = trimmed.split('=', 2)
+            signing[k.trim()] = v.trim()
+        }
+    }
+    signing.source = signingEnv.path
+} else if (signingProps.exists()) {
+    def props = new Properties()
+    signingProps.withInputStream { props.load(it) }
+    props.each { k, v -> signing[k.toString()] = v.toString() }
+    signing.source = signingProps.path
+}
+
+def hasSigning = signing.containsKey('STORE_FILE') && signing.containsKey('STORE_PASSWORD')
+
+android {
+    namespace 'com.xanan.cmdhelper'
+
+    // Android 16 = API 36，这是运行行为的基线：targetSdk 36 才会套用 Android 16
+    // 的兼容性变更（边到边强制、前台服务类型、后台启动限制等）。
+    //
+    // compileSdk 必须用 37：androidx.core 1.19.x 的 AAR 元数据硬性要求
+    // "compile against version 37 or later"，用 36 编译会在 checkAarMetadata
+    // 阶段直接失败。compileSdk 只影响"能调用哪些 API"，不影响运行时行为，
+    // 因此 compileSdk 37 + targetSdk 36 是标准搭配，而不是妥协。
+    compileSdk 37
+
+    defaultConfig {
+        applicationId 'com.xanan.cmdhelper'
+        minSdk 24
+        targetSdk 36
+        versionCode 8
+        versionName '1.1.1'
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        resourceConfigurations += ['zh-rCN']
+    }
+
+    signingConfigs {
+        release {
+            if (hasSigning) {
+                storeFile rootProject.file(signing['STORE_FILE'])
+                storePassword signing['STORE_PASSWORD']
+                keyAlias signing['KEY_ALIAS'] ?: 'xanan'
+                keyPassword signing['KEY_PASSWORD'] ?: signing['STORE_PASSWORD']
+
+                // 同时启用 v1(JAR) 与 v2 签名。
+                //
+                // AGP 从某个版本起默认只做 v2：对新系统完全够用（`apksigner verify`
+                // 也报 Verifies），但在部分国内 ROM 上会被**系统级的安装校验**拒收，
+                // 报一个没有含义的 `Failure [-99]` —— 实测本机 ColorOS 就是如此，
+                // 而同一个包换 v1+v2 双签就能正常装。v1 只多几百字节，代价可以忽略。
+                enableV1Signing = true
+                enableV2Signing = true
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+            if (hasSigning) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // Kotlin 字节码目标对齐 Java 17。
+    //
+    // 刻意**不**用 kotlin { jvmToolchain(17) }：本机只装了 Android Studio 自带的
+    // JBR（当前是 25），没有独立的 JDK 17。用 toolchain 会要求 Gradle 去"找或下载"
+    // 一个 JDK 17，结果是构建直接失败：
+    //   Cannot find a Java installation ... matching: {languageVersion=17}
+    // 只设 jvmTarget 则由当前 JVM 编译、产出 17 字节码，等价且不需要额外安装。
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    packaging {
+        resources {
+            excludes += ['META-INF/*.kotlin_module']
+        }
+    }
+}
+
+dependencies {
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.recyclerview
+    implementation libs.material
+    implementation libs.kotlinx.coroutines.android
+
+    testImplementation libs.junit
+    // org.json 在 Android 运行时由系统提供（android.jar 里是空壳 stub），
+    // 因此纯 JVM 单元测试跑 JSON 相关代码会抛 "not mocked" 的 RuntimeException。
+    // 这里显式引入官方实现，让命令生成逻辑能在电脑上直接测试，不必上真机。
+    testImplementation libs.org.json
+}
+
+// 打印 release 会用的签名来源，让配置错误在构建期就暴露，
+// 而不是等到安装时才发现包没签名。
+tasks.register('signingInfo') {
+    doLast {
+        if (hasSigning) {
+            println "signing: ${signing['STORE_FILE']} (alias ${signing['KEY_ALIAS'] ?: 'xanan'})"
+            println "source : ${signing['source']}"
+        } else {
+            println 'signing: 未配置 —— release 构建将不签名'
+            println "查找位置: ${signingEnv.path} 与 ${signingProps.path}"
+        }
+    }
+}
